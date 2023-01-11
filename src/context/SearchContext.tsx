@@ -18,8 +18,13 @@ export const SearchProvider = ({
   const searchInput = useRecoilValue(searchInputState);
   const [searchOutput, setSearchOutput] = useRecoilState(searchOutputState);
 
+  /**
+   * 캐시 기능 로직
+   * sessionStorage에 정보가 없는 값(NO_RESULT), 정보가 있는 값(IN_RESULT)로
+   * 구분해서, 있으면 API call을 안 하고 넘어감.
+   * 정보가 있는 값의 경우 최대 7개까지만 저장.
+   */
   useEffect(() => {
-    // 비즈니스 로직 처리
     searchService.checkCache(searchInput).then((cached: string) => {
       // console.info(cached);
       if (cached === NO_RESULT) {
