@@ -14,9 +14,12 @@ const AutocompleteBar = () => {
       style={{ display: isSearchBarFocus ? 'block' : 'none' }}
     >
       <p>{searchInput}</p>
-      {searchResult.hasOwnProperty('values')
-        ? searchResult['values']?.map((item, idx) => <p key={idx}>{item}</p>)
-        : null}
+      <hr />
+      {searchResult['values'].length === 0 ? (
+        <p>검색결과가 없습니다</p>
+      ) : (
+        searchResult['values']?.map((item, idx) => <p key={idx}>{item}</p>)
+      )}
     </div>
   );
 };
