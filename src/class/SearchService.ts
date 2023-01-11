@@ -1,8 +1,11 @@
 // SearchServiceInterface
 // checkCache(keyword): Promise<string>
 // getCache(keyword): SearchResult[]
-// get(keyword): Promise<SearchResult[]>
-import { SearchResult, NoResultArray } from '../types/types';
+// getServer(keyword): SearchResult[]
+// setCacheNoResult(keyword):void
+// convertResult(ApiResponse): SearchResult['values']
+
+import { SearchResult, NoResultArray, ApiResponse } from '../types/types';
 import { NO_RESULT, IN_RESULT, NEW_RESULT } from '../constant/constants';
 
 export class SearchService {
@@ -13,6 +16,7 @@ export class SearchService {
   #NEW_RESULT = NEW_RESULT;
   #NO_RESULT_ARRAY: NoResultArray = [];
   #IN_RESULT_ARRAY: SearchResult[] = [];
+  #MAX_LENGTH_RESULT = 7;
 
   constructor(httpClient: any, cacheRepository: any) {
     this.#httpClient = httpClient;
@@ -43,5 +47,24 @@ export class SearchService {
   async getServer(keyword: string) {
     if (!keyword) return;
     return this.#httpClient.fetch(keyword);
+  }
+
+  setCacheNoResult(keyword: string) {
+    this.#cacheRepository.saveNoResult(keyword);
+  }
+
+  setCacheInResult(result: SearchResult) {
+    this.#cacheRepository.saveInResult(result);
+  }
+
+  convertResult(result: ApiResponse[]) {
+    // sickNm 짧은 순서대로 정렬해서 7개까지 리턴
+    const length = Math.min(result.length, this.#MAX_LENGTH_RESULT);
+    const returns = [];
+    result.sort((a, b) => a.sickNm.length - b.sickNm.length);
+    for (let i = 0; i < length; i++) {
+      returns.push(result[i].sickNm);
+    }
+    return returns;
   }
 }

@@ -11,22 +11,32 @@ export class CacheRepository {
   #IN_RESULT = 'in-result';
 
   saveNoResult(keyword: string) {
-    const cachedNoResult = JSON.parse(sessionStorage.getItem(this.#NO_RESULT) ?? '');
-    sessionStorage.setItem(this.#NO_RESULT, JSON.stringify([...cachedNoResult, keyword]));
+    const noResult = sessionStorage.getItem(this.#NO_RESULT);
+    if (noResult === null) {
+      sessionStorage.setItem(this.#NO_RESULT, JSON.stringify([keyword]));
+    } else {
+      const noResultArray = JSON.parse(noResult);
+      if (noResultArray.includes(keyword)) return;
+      sessionStorage.setItem(this.#NO_RESULT, JSON.stringify([...noResultArray, keyword]));
+    }
   }
 
   getNoResult() {
-    const noResultArray = sessionStorage.getItem(this.#NO_RESULT);
-    return noResultArray === null ? [] : noResultArray.split(',');
+    const noResult = sessionStorage.getItem(this.#NO_RESULT);
+    return noResult === null ? [] : JSON.parse(noResult);
   }
 
-  saveInResult(keyword: string, result: SearchResult) {
-    const cachedInResult = JSON.parse(sessionStorage.getItem(this.#IN_RESULT) ?? '');
-    const newObject: { [key: string]: SearchResult } = {};
-    newObject[keyword] = result;
-    cachedInResult.push(newObject);
-
-    sessionStorage.setItem(this.#IN_RESULT, JSON.stringify(cachedInResult));
+  saveInResult(result: SearchResult) {
+    const inResult = sessionStorage.getItem(this.#IN_RESULT);
+    if (inResult === null) {
+      sessionStorage.setItem(this.#IN_RESULT, JSON.stringify([result]));
+    } else {
+      const inResultArray = JSON.parse(inResult);
+      for (const obj of inResultArray) {
+        if (obj.letter === result.letter) return;
+      }
+      sessionStorage.setItem(this.#IN_RESULT, JSON.stringify([...inResultArray, result]));
+    }
   }
 
   getInResult() {

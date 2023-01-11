@@ -21,13 +21,24 @@ export const SearchProvider = ({
   useEffect(() => {
     // 비즈니스 로직 처리
     searchService.checkCache(searchInput).then((cached: string) => {
+      // console.info(cached);
       if (cached === NO_RESULT) {
         setSearchOutput({ letter: searchInput, values: [] });
       } else if (cached === IN_RESULT) {
         setSearchOutput(searchService.getCache(searchInput)[0]);
       } else {
         searchService.getServer(searchInput).then((res: any) => {
-          setSearchOutput(res);
+          if (res.length === 0) {
+            searchService.setCacheNoResult(searchInput);
+            setSearchOutput({ letter: searchInput, values: [] });
+          } else {
+            const result: SearchResult = {
+              letter: searchInput,
+              values: searchService.convertResult(res),
+            };
+            searchService.setCacheInResult(result);
+            setSearchOutput(result);
+          }
         });
       }
     });
