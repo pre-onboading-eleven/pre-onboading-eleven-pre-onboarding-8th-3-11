@@ -1,10 +1,10 @@
-import React, { useContext, createContext, useEffect, useState } from 'react';
+import React, { useContext, createContext, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { searchInputState, searchResultState } from '../store/recoil_state';
+import { searchInputState, searchOutputState } from '../store/recoil_state';
 import { SearchResult } from '../types/types';
 import { NO_RESULT, IN_RESULT, NEW_RESULT } from '../constant/constants';
 
-const SearchContext = createContext<SearchResult[]>([]);
+const SearchContext = createContext<SearchResult>({ letter: '', values: [] });
 
 export const useSearch = () => useContext(SearchContext);
 
@@ -16,24 +16,22 @@ export const SearchProvider = ({
   searchService: any;
 }) => {
   const searchInput = useRecoilValue(searchInputState);
-  const [searchResult, setSearchResult] = useRecoilState(searchResultState);
+  const [searchOutput, setSearchOutput] = useRecoilState(searchOutputState);
 
   useEffect(() => {
     // 비즈니스 로직 처리
     searchService.checkCache(searchInput).then((cached: string) => {
       if (cached === NO_RESULT) {
-        setSearchResult([{ letter: searchInput, values: [] }]);
+        setSearchOutput({ letter: searchInput, values: [] });
       } else if (cached === IN_RESULT) {
-        setSearchResult(searchService.getCache(searchInput));
+        setSearchOutput(searchService.getCache(searchInput)[0]);
       } else {
         searchService.getServer(searchInput).then((res: any) => {
-          setSearchResult(res);
+          setSearchOutput(res);
         });
       }
     });
-    // const result = searchService.checkCache(searchInput);
-    // console.info(result);
   }, [searchInput]);
 
-  return <SearchContext.Provider value={searchResult}>{children}</SearchContext.Provider>;
+  return <SearchContext.Provider value={searchOutput}>{children}</SearchContext.Provider>;
 };

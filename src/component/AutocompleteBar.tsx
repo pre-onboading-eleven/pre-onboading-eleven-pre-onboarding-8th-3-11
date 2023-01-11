@@ -7,7 +7,6 @@ const AutocompleteBar = () => {
   const isSearchBarFocus = useRecoilValue(searchBarFocus);
   const searchInput = useRecoilValue(searchInputState);
   const searchResult = useSearch();
-  console.info(searchResult[0]);
 
   return (
     <div
@@ -16,8 +15,8 @@ const AutocompleteBar = () => {
       style={{ display: isSearchBarFocus ? 'block' : 'block' }}
     >
       <p>{searchInput}</p>
-      {searchResult[0] !== undefined && searchResult[0].hasOwnProperty('values')
-        ? searchResult[0]['values']?.map((item, idx) => <p key={idx}>{item}</p>)
+      {searchResult.hasOwnProperty('values')
+        ? searchResult['values']?.map((item, idx) => <p key={idx}>{item}</p>)
         : null}
     </div>
   );

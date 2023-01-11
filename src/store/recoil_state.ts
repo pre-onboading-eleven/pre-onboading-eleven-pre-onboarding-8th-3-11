@@ -11,9 +11,14 @@ const searchResultState = atom<SearchResult[]>({
   default: [],
 });
 
+const searchOutputState = atom<SearchResult>({
+  key: 'searchOutputState',
+  default: { letter: '', values: [] },
+});
+
 const searchBarFocus = atom({
   key: 'searchBarFocus',
   default: false,
 });
 
-export { searchInputState, searchBarFocus, searchResultState };
+export { searchInputState, searchBarFocus, searchResultState, searchOutputState };

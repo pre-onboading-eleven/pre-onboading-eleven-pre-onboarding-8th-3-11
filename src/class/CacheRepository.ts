@@ -2,7 +2,8 @@
 // saveNoResult(keyword): void
 // getNoResult(): NoResultArray
 // saveInResult(keyword[]): void
-// getInResult(): SearchResult[]
+// getInResult(): SearchResult{}
+
 import { SearchResult } from '../types/types';
 
 export class CacheRepository {
@@ -19,9 +20,9 @@ export class CacheRepository {
     return noResultArray === null ? [] : noResultArray.split(',');
   }
 
-  saveInResult(keyword: string, result: SearchResult[]) {
+  saveInResult(keyword: string, result: SearchResult) {
     const cachedInResult = JSON.parse(sessionStorage.getItem(this.#IN_RESULT) ?? '');
-    const newObject: { [key: string]: SearchResult[] } = {};
+    const newObject: { [key: string]: SearchResult } = {};
     newObject[keyword] = result;
     cachedInResult.push(newObject);
 
