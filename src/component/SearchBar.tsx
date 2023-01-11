@@ -1,15 +1,30 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import { searchInputState, searchBarFocus } from '../store/recoil_state';
 
 import { MagnifyGlassThick, MagnifyGlassThin } from './MagnifyGlass';
 
 const SearchBar = () => {
-  const [searchInput, setSearchInput] = useRecoilState(searchInputState);
+  const [, setSearchInput] = useRecoilState(searchInputState);
   const setIsSearchBarFocus = useSetRecoilState(searchBarFocus);
 
-  const onInputText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(e.target.value);
+  const debounceFunction = (callback: any, delay: number) => {
+    let timer: number | undefined;
+    return (...args: any) => {
+      // 실행한 함수(setTimeout())를 취소
+      clearTimeout(timer);
+      // delay가 지나면 callback 함수를 실행
+      timer = setTimeout(() => callback(...args), delay);
+    };
+  };
+
+  const apiCall = useCallback(
+    debounceFunction((value: string) => setSearchInput(value), 500),
+    []
+  );
+
+  const onTextInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    apiCall(e.target.value);
   };
 
   return (
@@ -21,9 +36,12 @@ const SearchBar = () => {
           <input
             type="text"
             placeholder="질환명을 입력해주세요"
-            onFocus={() => setIsSearchBarFocus(true)}
+            onFocus={() => {
+              setIsSearchBarFocus(true);
+              setSearchInput('');
+            }}
             onBlur={() => setIsSearchBarFocus(false)}
-            onChange={onInputText}
+            onChange={onTextInput}
             className="w-full"
           />
         </div>

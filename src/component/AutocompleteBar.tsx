@@ -11,8 +11,7 @@ const AutocompleteBar = () => {
   return (
     <div
       className="w-96 bg-white rounded-xl p-4"
-      // style={{ display: isSearchBarFocus ? 'block' : 'none' }}
-      style={{ display: isSearchBarFocus ? 'block' : 'block' }}
+      style={{ display: isSearchBarFocus ? 'block' : 'none' }}
     >
       <p>{searchInput}</p>
       {searchResult.hasOwnProperty('values')
