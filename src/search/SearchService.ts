@@ -1,5 +1,5 @@
 // SearchServiceInterface
-// checkCache(keyword): Promise<boolean>
+// checkCache(keyword): Promise<string>
 // getCache(keyword): SearchResult[]
 // get(keyword): Promise<SearchResult[]>
 import { SearchResult, NoResultArray } from '../types';
@@ -20,22 +20,24 @@ export class SearchService {
   }
 
   checkCache(keyword = '') {
+    if (keyword === '') return Promise.resolve(this.#NO_RESULT);
+
     this.#NO_RESULT_ARRAY = this.#cacheRepository.getNoResult();
     if (this.#NO_RESULT_ARRAY.includes(keyword)) {
       return Promise.resolve(this.#NO_RESULT);
     }
-    // this.#IN_RESULT_ARRAY = this.#cacheRepository.getInResult();
 
-    // this.#IN_RESULT_ARRAY.forEach(item => {
-    //   if (Object.keys(item)[0] === keyword) return Promise.resolve(this.#IN_RESULT);
-    // });
+    this.#IN_RESULT_ARRAY = this.#cacheRepository.getInResult();
+
+    for (const item of this.#IN_RESULT_ARRAY) {
+      if (item.letter === keyword) return Promise.resolve(this.#IN_RESULT);
+    }
 
     return Promise.resolve(this.#NEW_RESULT);
-    // return this.#cacheRepository.getNoResult();
   }
 
   getCache(keyword: string) {
-    return this.#IN_RESULT_ARRAY.filter(item => Object.keys(item)[0] === keyword);
+    return this.#IN_RESULT_ARRAY.filter(item => item.letter === keyword);
   }
 
   async getServer(keyword: string) {

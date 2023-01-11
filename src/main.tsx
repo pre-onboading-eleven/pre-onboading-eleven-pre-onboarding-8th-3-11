@@ -13,11 +13,9 @@ const httpClient = new HttpClient('http://localhost:4000');
 const searchService = new SearchService(httpClient, cacheRepository);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <RecoilRoot>
-      <SearchProvider searchService={searchService}>
-        <App />
-      </SearchProvider>
-    </RecoilRoot>
-  </React.StrictMode>
+  <RecoilRoot>
+    <SearchProvider searchService={searchService}>
+      <App />
+    </SearchProvider>
+  </RecoilRoot>
 );

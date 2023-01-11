@@ -29,6 +29,7 @@ export class CacheRepository {
   }
 
   getInResult() {
-    return JSON.parse(sessionStorage.getItem(this.#IN_RESULT) ?? '');
+    const inResultArray = sessionStorage.getItem(this.#IN_RESULT) || '';
+    return inResultArray.length === 0 ? [] : JSON.parse(inResultArray);
   }
 }
