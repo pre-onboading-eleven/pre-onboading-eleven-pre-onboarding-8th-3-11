@@ -6,9 +6,11 @@ import { RecoilRoot } from 'recoil';
 import { HttpClient } from './httpClient/HttpClient';
 import { SearchService } from './search/SearchService';
 import { SearchProvider } from './context/SearchContext';
+import { CacheRepository } from './repository/CacheRepository';
 
+const cacheRepository = new CacheRepository();
 const httpClient = new HttpClient('http://localhost:4000');
-const searchService = new SearchService(httpClient);
+const searchService = new SearchService(httpClient, cacheRepository);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

@@ -16,7 +16,7 @@ const AutocompleteBar = () => {
     >
       <p>{searchInput}</p>
       {searchResult?.map((item, idx) => (
-        <p key={idx}>{item.sickNm}</p>
+        <p key={idx}>{item.searchInput}</p>
       ))}
     </div>
   );

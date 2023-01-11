@@ -1,4 +1,4 @@
-import React, { useContext, createContext, useEffect } from 'react';
+import React, { useContext, createContext, useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { searchInputState, searchResultState } from '../recoil_state';
 import { SearchResult } from '../types';
@@ -18,7 +18,19 @@ export const SearchProvider = ({
   const [searchResult, setSearchResult] = useRecoilState(searchResultState);
 
   useEffect(() => {
-    searchService.get(searchInput).then(setSearchResult);
+    // 비즈니스 로직 처리
+    searchService.checkCache(searchInput).then((res: any) => {
+      console.info(res);
+      // if (cached) {
+      //   //
+      // } else {
+      //   searchService.getServer(searchInput).then((res: any) => {
+      //     setSearchResult(res);
+      //   });
+      // }
+    });
+    // const result = searchService.checkCache(searchInput);
+    // console.info(result);
   }, [searchService, searchInput]);
 
   return <SearchContext.Provider value={searchResult}>{children}</SearchContext.Provider>;

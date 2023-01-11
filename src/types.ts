@@ -1,4 +1,5 @@
 export type SearchResult = {
-  sickCd: string;
-  sickNm: string;
+  searchInput: [];
 };
+
+export type NoResultArray = string[];
