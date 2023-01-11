@@ -1,8 +1,8 @@
 import React, { useContext, createContext, useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { searchInputState, searchResultState } from '../recoil_state';
-import { SearchResult } from '../types';
-import { NO_RESULT, IN_RESULT, NEW_RESULT } from '../constants';
+import { searchInputState, searchResultState } from '../store/recoil_state';
+import { SearchResult } from '../types/types';
+import { NO_RESULT, IN_RESULT, NEW_RESULT } from '../constant/constants';
 
 const SearchContext = createContext<SearchResult[]>([]);
 

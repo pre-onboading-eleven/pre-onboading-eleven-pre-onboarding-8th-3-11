@@ -2,8 +2,8 @@
 // checkCache(keyword): Promise<string>
 // getCache(keyword): SearchResult[]
 // get(keyword): Promise<SearchResult[]>
-import { SearchResult, NoResultArray } from '../types';
-import { NO_RESULT, IN_RESULT, NEW_RESULT } from '../constants';
+import { SearchResult, NoResultArray } from '../types/types';
+import { NO_RESULT, IN_RESULT, NEW_RESULT } from '../constant/constants';
 
 export class SearchService {
   #httpClient;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSetRecoilState, useRecoilState } from 'recoil';
-import { searchInputState, searchBarFocus } from '../recoil_state';
+import { searchInputState, searchBarFocus } from '../store/recoil_state';
 
 import { MagnifyGlassThick, MagnifyGlassThin } from './MagnifyGlass';
 

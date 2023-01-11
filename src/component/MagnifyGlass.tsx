@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { searchBarFocus } from '../recoil_state';
+import { searchBarFocus } from '../store/recoil_state';
 
 const MagnifyGlassThin = () => {
   const isSearchBarFocus = useRecoilValue(searchBarFocus);

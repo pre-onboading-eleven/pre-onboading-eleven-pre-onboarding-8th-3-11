@@ -1,5 +1,5 @@
 import { atom, selector } from 'recoil';
-import { SearchResult } from './types';
+import { SearchResult } from '../types/types';
 
 const searchInputState = atom({
   key: 'searchInputState',

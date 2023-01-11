@@ -3,7 +3,7 @@
 // getNoResult(): NoResultArray
 // saveInResult(keyword[]): void
 // getInResult(): SearchResult[]
-import { SearchResult } from '../types';
+import { SearchResult } from '../types/types';
 
 export class CacheRepository {
   #NO_RESULT = 'no-result';

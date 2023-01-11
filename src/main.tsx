@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
 import { RecoilRoot } from 'recoil';
-import { HttpClient } from './httpClient/HttpClient';
-import { SearchService } from './search/SearchService';
+import { HttpClient } from './class/HttpClient';
+import { SearchService } from './class/SearchService';
 import { SearchProvider } from './context/SearchContext';
-import { CacheRepository } from './repository/CacheRepository';
+import { CacheRepository } from './class/CacheRepository';
 
 const cacheRepository = new CacheRepository();
 const httpClient = new HttpClient('http://localhost:4000');

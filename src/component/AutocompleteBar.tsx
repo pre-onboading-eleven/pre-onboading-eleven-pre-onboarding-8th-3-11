@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { searchBarFocus, searchInputState } from '../recoil_state';
+import { searchBarFocus, searchInputState } from '../store/recoil_state';
 import { useSearch } from '../context/SearchContext';
 
 const AutocompleteBar = () => {
