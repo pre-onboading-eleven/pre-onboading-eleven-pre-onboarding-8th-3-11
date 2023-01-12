@@ -1,10 +1,8 @@
-/**
- * HttpClientInterface => HTTP 통신을 위한 인터페이스
- *
- * fetch(keyword): Promise<Any> => API 호출하고 데이터를 리턴하는 메소드
- */
+interface HttpClientInterface {
+  fetch(keyword: string): Promise<JSON | Error>;
+}
 
-export class HttpClient {
+export class HttpClient implements HttpClientInterface {
   #baseURL;
 
   constructor(baseURL: string) {
@@ -13,10 +11,19 @@ export class HttpClient {
 
   async fetch(keyword: string) {
     const keywordUTF = encodeURIComponent(keyword);
-    const result = await window.fetch(`${this.#baseURL}/?q=` + keywordUTF);
-    console.info(`검색어 '${keyword}' API 호출`);
-    if (!result.ok) throw new Error();
 
-    return result.json();
+    try {
+      const result = await window.fetch(`${this.#baseURL}/?q=` + keywordUTF);
+      console.info(`검색어 '${keyword}' API 호출`);
+      if (!result.ok) throw new Error();
+
+      return result.json();
+    } catch (error) {
+      let errMessage = 'fethed Error!';
+
+      if (error instanceof Error) errMessage = error.message;
+
+      window.alert(errMessage);
+    }
   }
 }

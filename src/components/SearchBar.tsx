@@ -1,22 +1,16 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { searchBarFocus, searchInputState, searchSelectedState } from '../store/recoil_state';
 
 import { MagnifyGlassThin } from './MagnifyGlass';
+
+import { debounceFunction } from '../lib/debounce';
 
 const SearchBar = () => {
   const [selected, setSelected] = useRecoilState(searchSelectedState);
 
   const [searchInput, setSearchInput] = useRecoilState(searchInputState);
   const setIsSearchBarFocus = useSetRecoilState(searchBarFocus);
-
-  const debounceFunction = (callback: any, delay: number) => {
-    let timer: number | undefined;
-    return (...args: any) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => callback(...args), delay);
-    };
-  };
 
   const apiCall = useCallback(
     debounceFunction((value: string) => setSearchInput(value), 500),
@@ -27,7 +21,7 @@ const SearchBar = () => {
     apiCall(e.target.value);
   };
 
-  const handleKeyUp = (event: React.KeyboardEvent<HTMLDivElement>) => {
+  const onTextKeyUp = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (searchInput.length > 0) {
       if (event.code === 'ArrowDown') {
         setSelected(selected + 1);
@@ -41,6 +35,15 @@ const SearchBar = () => {
     }
   };
 
+  const onTextFocus = () => {
+    setIsSearchBarFocus(true);
+    setSearchInput('');
+  };
+
+  const onTextBlur = () => {
+    setIsSearchBarFocus(false);
+  };
+
   return (
     <>
       <div className="text-4xl grid place-items-center leading-normal font-bold mb-8">
@@ -51,14 +54,11 @@ const SearchBar = () => {
         <div className=" box-border flex rounded-3xl overflow-hidden ">
           <MagnifyGlassThin />
           <input
-            onKeyUp={handleKeyUp}
+            onKeyUp={onTextKeyUp}
             type="text"
             placeholder="질환명을 입력해주세요"
-            onFocus={() => {
-              setIsSearchBarFocus(true);
-              setSearchInput('');
-            }}
-            onBlur={() => setIsSearchBarFocus(false)}
+            onFocus={onTextFocus}
+            onBlur={onTextBlur}
             onChange={onTextInput}
             className="w-full w-60 pl-2 outline-transparent"
           />

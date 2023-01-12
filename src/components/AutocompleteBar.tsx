@@ -1,7 +1,8 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useSearch } from '../context/SearchContext';
 import { searchBarFocus, searchInputState, searchSelectedState } from '../store/recoil_state';
-import { SearchResult } from '../types/types';
+
+import type { SearchResultType } from '../types/types';
 
 const AutocompleteBar = () => {
   // Focus 여부 판별
@@ -11,7 +12,7 @@ const AutocompleteBar = () => {
   const searchInput = useRecoilValue(searchInputState);
 
   // 검색된 결과를 리턴해줌
-  const searchResult: SearchResult = useSearch();
+  const searchResult: SearchResultType = useSearch();
 
   const [selected, setSelected] = useRecoilState(searchSelectedState);
 

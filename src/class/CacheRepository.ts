@@ -1,15 +1,13 @@
-/**
- * CacheRepository Interface => 캐싱을 위한 인터페이스
- *
- * saveCachedNotSearched(keyword): void => 검색했는데 검색이 안 되는 단어를 저장하는 메소드
- * getCachedNotSearched(): CachedNotSearched => 검색이 안 되는 단어들을 불러와 배열로 리턴해주는 메소드
- * saveCachedSearched(SearchResult): void => 검색했는데 검색이 되는 단어를 저장하는 메소드.
- * getCachedSearched(): SearchResult => 검색이 되는 단어와 병명을 불러와 SearchResult로 리턴해주는 메소드
- */
+import type { SearchResultType } from '../types/types';
 
-import { SearchResult } from '../types/types';
+interface CacheRepositoryInterface {
+  saveCachedNotSearched(keyword: string): void;
+  getCachedNotSearched(): string[];
+  saveCachedSearched(SearchResult: SearchResultType): void;
+  getCachedSearched(): string[];
+}
 
-export class CacheRepository {
+export class CacheRepository implements CacheRepositoryInterface {
   #CACHED_NOT_SEARCHED = 'not-exists';
   #CACHED_SEARCHED = 'exists';
 
@@ -32,7 +30,7 @@ export class CacheRepository {
     return notSearched === null ? [] : JSON.parse(notSearched);
   }
 
-  saveCachedSearched(SearchResult: SearchResult) {
+  saveCachedSearched(SearchResult: SearchResultType) {
     const searched = sessionStorage.getItem(this.#CACHED_SEARCHED);
     if (searched === null) {
       sessionStorage.setItem(this.#CACHED_SEARCHED, JSON.stringify([SearchResult]));

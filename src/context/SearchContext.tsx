@@ -1,7 +1,6 @@
-import React, { useContext, createContext, useEffect } from 'react';
+import { useContext, createContext, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { searchInputState, showOutputState } from '../store/recoil_state';
-import { SearchResult, ApiResponse } from '../types/types';
 import {
   CACHED_NOT_SEARCHED,
   CACHED_SEARCHED,
@@ -10,7 +9,9 @@ import {
 } from '../constant/constants';
 import { SearchService } from '../class/SearchService';
 
-const SearchContext = createContext<SearchResult>(DEFAULT_SEARCH_RESULT);
+import type { SearchResultType, ApiResponseType } from '../types/types';
+
+const SearchContext = createContext<SearchResultType>(DEFAULT_SEARCH_RESULT);
 
 export const useSearch = () => useContext(SearchContext);
 
@@ -41,12 +42,12 @@ export const SearchProvider = ({
     });
 
     const getFromServer = () => {
-      searchService.getServer(searchInput).then((ApiResponse: ApiResponse[]) => {
+      searchService.getServer(searchInput).then((ApiResponse: ApiResponseType[]) => {
         if (ApiResponse.length === 0) {
           searchService.setCacheNotSearched(searchInput);
           setShowOutput(DEFAULT_SEARCH_RESULT);
         } else {
-          const result: SearchResult = {
+          const result: SearchResultType = {
             letter: searchInput,
             values: searchService.convertResult(ApiResponse),
           };

@@ -1,11 +1,11 @@
-export interface SearchResult {
+export type SearchResultType = {
   letter: string;
   values: string[];
-}
+};
 
-export interface ApiResponse {
+export type ApiResponseType = {
   sickCd: string;
   sickNm: string;
-}
+};
 
 export type NoResultArray = string[];
