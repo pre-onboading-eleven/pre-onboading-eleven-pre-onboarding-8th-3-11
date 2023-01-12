@@ -32,7 +32,7 @@ export const SearchProvider = ({
           setShowOutput(DEFAULT_SEARCH_RESULT);
           break;
         case CACHED_SEARCHED:
-          setShowOutput(searchService.getCache(searchInput)[0]);
+          setShowOutput(searchService.getCacheSearched(searchInput));
           break;
         case NOT_CACHED:
           getFromServer();
@@ -43,7 +43,7 @@ export const SearchProvider = ({
     const getFromServer = () => {
       searchService.getServer(searchInput).then((ApiResponse: ApiResponse[]) => {
         if (ApiResponse.length === 0) {
-          searchService.setCacheNoResult(searchInput);
+          searchService.setCacheNotSearched(searchInput);
           setShowOutput(DEFAULT_SEARCH_RESULT);
         } else {
           const result: SearchResult = {
@@ -51,7 +51,7 @@ export const SearchProvider = ({
             values: searchService.convertResult(ApiResponse),
           };
 
-          searchService.setCacheInResult(result);
+          searchService.setCacheSearched(result);
           setShowOutput(result);
         }
       });

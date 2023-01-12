@@ -1,10 +1,10 @@
 /**
- * CacheRepository Interface
+ * CacheRepository Interface => 캐싱을 위한 인터페이스
  *
- * saveCachedNotSearched(keyword): void
- * getCachedNotSearched(): CachedNotSearched
- * saveCachedSearched(keyword[]): void
- * getCachedSearched(): SearchResult{}
+ * saveCachedNotSearched(keyword): void => 검색했는데 검색이 안 되는 단어를 저장하는 메소드
+ * getCachedNotSearched(): CachedNotSearched => 검색이 안 되는 단어들을 불러와 배열로 리턴해주는 메소드
+ * saveCachedSearched(SearchResult): void => 검색했는데 검색이 되는 단어를 저장하는 메소드.
+ * getCachedSearched(): SearchResult => 검색이 되는 단어와 병명을 불러와 SearchResult로 리턴해주는 메소드
  */
 
 import { SearchResult } from '../types/types';

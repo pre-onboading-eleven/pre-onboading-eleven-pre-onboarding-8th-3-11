@@ -1,7 +1,7 @@
 /**
- * HttpClientInterface
+ * HttpClientInterface => HTTP 통신을 위한 인터페이스
  *
- * fetch(keyword): Promise<Any>
+ * fetch(keyword): Promise<Any> => API 호출하고 데이터를 리턴하는 메소드
  */
 
 export class HttpClient {

@@ -25,6 +25,3 @@ dist-ssr
 
 #eslint
 .eslintcache
-
-#others
-package-lock.json
