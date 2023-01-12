@@ -20,7 +20,7 @@ const AutocompleteBar = () => {
       className="w-96 bg-white rounded-xl p-4"
       style={{ display: isSearchBarFocus ? 'block' : 'none' }}
     >
-      <p>{searchInput}</p>
+      <p className="font-bold mb-2">{searchInput}</p>
       <hr />
       {searchResult['values'].length === 0 ? (
         <p>검색결과가 없습니다</p>
@@ -34,7 +34,9 @@ const AutocompleteBar = () => {
             }
             key={idx}
           >
-            {item}
+            {item.split(searchInput)[0]}
+            <span className="font-bold">{searchInput}</span>
+            {item.split(searchInput)[1]}
           </p>
         ))
       )}
