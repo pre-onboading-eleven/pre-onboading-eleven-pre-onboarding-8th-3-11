@@ -11,6 +11,8 @@
 
 import { SearchResult, NoResultArray, ApiResponse } from '../types/types';
 import { CACHED_NOT_SEARCHED, CACHED_SEARCHED, NOT_CACHED } from '../constant/constants';
+import { HttpClient } from './HttpClient';
+import { CacheRepository } from './CacheRepository';
 
 export class SearchService {
   #httpClient;
@@ -22,7 +24,7 @@ export class SearchService {
   #CACHED_SEARCHED_ARRAY: SearchResult[] = [];
   #MAX_LENGTH = 7;
 
-  constructor(httpClient: any, cacheRepository: any) {
+  constructor(httpClient: HttpClient, cacheRepository: CacheRepository) {
     this.#httpClient = httpClient;
     this.#cacheRepository = cacheRepository;
   }

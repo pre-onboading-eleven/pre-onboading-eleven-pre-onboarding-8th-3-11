@@ -8,6 +8,7 @@ import {
   NOT_CACHED,
   DEFAULT_SEARCH_RESULT,
 } from '../constant/constants';
+import { SearchService } from '../class/SearchService';
 
 const SearchContext = createContext<SearchResult>(DEFAULT_SEARCH_RESULT);
 
@@ -18,7 +19,7 @@ export const SearchProvider = ({
   searchService,
 }: {
   children: React.ReactNode;
-  searchService: any;
+  searchService: SearchService;
 }) => {
   const searchInput = useRecoilValue(searchInputState);
   const [showOutput, setShowOutput] = useRecoilState(showOutputState);
