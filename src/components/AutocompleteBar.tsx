@@ -1,5 +1,5 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { searchBarFocus, searchInputState, searchSelectedState } from '../store/recoil_state';
+import { searchBarFocus, searchInputState, searchSelectedNumState } from '../store/recoil_state';
 import { useSearch } from '../context/SearchContext';
 
 import type { SearchResultType } from '../types/types';
@@ -11,7 +11,7 @@ const AutocompleteBar = () => {
 
   const searchResult: SearchResultType = useSearch();
 
-  const [selected] = useRecoilState(searchSelectedState);
+  const [selected] = useRecoilState(searchSelectedNumState);
 
   return (
     <div

@@ -1,6 +1,7 @@
-import { CACHED_NOT_SEARCHED, CACHED_SEARCHED, NOT_CACHED } from '../constant/constants';
 import { HttpClient } from './HttpClient';
 import { CacheRepository } from './CacheRepository';
+
+import { CACHED_NOT_SEARCHED, CACHED_SEARCHED, NOT_CACHED } from '../constant/constants';
 
 import type { SearchResultType, NoResultArray, ApiResponseType } from '../types/types';
 
