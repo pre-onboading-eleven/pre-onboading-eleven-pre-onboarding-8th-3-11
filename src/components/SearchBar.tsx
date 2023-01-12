@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { searchBarFocus, searchInputState, searchSelectedState } from '../store/recoil_state';
 import { MagnifyGlassThin } from './MagnifyGlass';
@@ -10,9 +10,11 @@ import { useSearch } from '../context/SearchContext';
 import { debounceFunction } from '../lib/debounce';
 
 const SearchBar = () => {
-  const [selected, setSelected] = useRecoilState(searchSelectedState);
+  const [inputValue, setInputValue] = useState('');
 
+  const [selected, setSelected] = useRecoilState(searchSelectedState);
   const [searchInput, setSearchInput] = useRecoilState(searchInputState);
+
   const setIsSearchBarFocus = useSetRecoilState(searchBarFocus);
 
   const apiCall = useCallback(
@@ -21,21 +23,22 @@ const SearchBar = () => {
   );
 
   const onTextInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(e.target.value);
+    setInputValue(e.target.value);
+    setSelected(-1);
     apiCall(e.target.value);
   };
 
   const onTextKeyUp = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.nativeEvent.isComposing) return;
+
     if (searchInput.length > 0) {
       if (event.code === 'ArrowDown') {
-        setSelected(selected + 1);
-      }
-      if (event.code === 'ArrowUp' && selected >= 0) {
-        setSelected(selected - 1);
-      }
-      if (event.code === 'Enter' && selected >= 0) {
-        setSearchInput(searchResult.values[selected]);
-        setIsSearchBarFocus(false);
+        setSelected(prevState => prevState + 1);
+      } else if (event.code === 'ArrowUp') {
+        setSelected(prevState => prevState - 1);
+      } else if (event.code === 'Enter') {
+        setInputValue(searchResult.values[selected]);
+
         setSelected(-1);
       }
     }
@@ -62,8 +65,8 @@ const SearchBar = () => {
         <div className=" box-border flex rounded-3xl overflow-hidden ">
           <MagnifyGlassThin />
           <input
-            value={searchInput}
-            onKeyUp={onTextKeyUp}
+            value={inputValue}
+            onKeyDown={onTextKeyUp}
             type="text"
             placeholder="질환명을 입력해주세요"
             onFocus={onTextFocus}
