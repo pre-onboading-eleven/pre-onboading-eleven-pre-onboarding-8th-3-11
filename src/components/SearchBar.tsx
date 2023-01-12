@@ -1,11 +1,13 @@
 import React, { useCallback } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { searchBarFocus, searchInputState } from '../store/recoil_state';
+import { searchBarFocus, searchInputState, searchSelectedState } from '../store/recoil_state';
 
-import { MagnifyGlassThick, MagnifyGlassThin } from './MagnifyGlass';
+import { MagnifyGlassThin } from './MagnifyGlass';
 
 const SearchBar = () => {
-  const [, setSearchInput] = useRecoilState(searchInputState);
+  const [selected, setSelected] = useRecoilState(searchSelectedState);
+
+  const [searchInput, setSearchInput] = useRecoilState(searchInputState);
   const setIsSearchBarFocus = useSetRecoilState(searchBarFocus);
 
   const debounceFunction = (callback: any, delay: number) => {
@@ -25,6 +27,20 @@ const SearchBar = () => {
     apiCall(e.target.value);
   };
 
+  const handleKeyUp = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (searchInput.length > 0) {
+      if (event.code === 'ArrowDown') {
+        setSelected(selected + 1);
+      }
+      if (event.code === 'ArrowUp' && selected >= 0) {
+        setSelected(selected - 1);
+      }
+      if (event.code === 'Enter' && selected >= 0) {
+        setSelected(-1);
+      }
+    }
+  };
+
   return (
     <>
       <div className="text-4xl grid place-items-center leading-normal font-bold mb-8">
@@ -35,6 +51,7 @@ const SearchBar = () => {
         <div className=" box-border flex rounded-3xl overflow-hidden ">
           <MagnifyGlassThin />
           <input
+            onKeyUp={handleKeyUp}
             type="text"
             placeholder="질환명을 입력해주세요"
             onFocus={() => {

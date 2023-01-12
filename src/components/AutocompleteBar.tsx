@@ -1,7 +1,6 @@
-import React from 'react';
-import { useRecoilValue } from 'recoil';
-import { searchBarFocus, searchInputState } from '../store/recoil_state';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useSearch } from '../context/SearchContext';
+import { searchBarFocus, searchInputState, searchSelectedState } from '../store/recoil_state';
 import { SearchResult } from '../types/types';
 
 const AutocompleteBar = () => {
@@ -14,6 +13,8 @@ const AutocompleteBar = () => {
   // 검색된 결과를 리턴해줌
   const searchResult: SearchResult = useSearch();
 
+  const [selected, setSelected] = useRecoilState(searchSelectedState);
+
   return (
     <div
       className="w-96 bg-white rounded-xl p-4"
@@ -24,7 +25,18 @@ const AutocompleteBar = () => {
       {searchResult['values'].length === 0 ? (
         <p>검색결과가 없습니다</p>
       ) : (
-        searchResult['values']?.map((item, idx) => <p key={idx}>{item}</p>)
+        searchResult['values']?.map((item, idx) => (
+          <p
+            className={
+              selected === idx
+                ? 'flex bg-yellow-200 cursor-pointer p-1'
+                : 'flex hover:bg-pink-200 cursor-pointer p-1'
+            }
+            key={idx}
+          >
+            {item}
+          </p>
+        ))
       )}
     </div>
   );
