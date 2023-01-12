@@ -14,7 +14,7 @@ export class HttpClient {
   async fetch(keyword: string) {
     const keywordUTF = encodeURIComponent(keyword);
     const result = await window.fetch(`${this.#baseURL}/?q=` + keywordUTF);
-    console.info('API call');
+    console.info(`검색어 '${keyword}' API 호출`);
     if (!result.ok) throw new Error();
 
     return result.json();

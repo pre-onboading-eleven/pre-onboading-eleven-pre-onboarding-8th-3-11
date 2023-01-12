@@ -31,26 +31,35 @@ export const SearchProvider = ({
    */
   useEffect(() => {
     searchService.checkCache(searchInput).then((cachedType: string) => {
-      if (cachedType === CACHED_NOT_SEARCHED) {
-        setShowOutput(DEFAULT_SEARCH_RESULT);
-      } else if (cachedType === CACHED_SEARCHED) {
-        setShowOutput(searchService.getCache(searchInput)[0]);
-      } else if (cachedType === NOT_CACHED) {
-        searchService.getServer(searchInput).then((ApiResponse: ApiResponse[]) => {
-          if (ApiResponse.length === 0) {
-            searchService.setCacheNoResult(searchInput);
-            setShowOutput(DEFAULT_SEARCH_RESULT);
-          } else {
-            const result: SearchResult = {
-              letter: searchInput,
-              values: searchService.convertResult(ApiResponse),
-            };
-            searchService.setCacheInResult(result);
-            setShowOutput(result);
-          }
-        });
+      switch (cachedType) {
+        case CACHED_NOT_SEARCHED:
+          setShowOutput(DEFAULT_SEARCH_RESULT);
+          break;
+        case CACHED_SEARCHED:
+          setShowOutput(searchService.getCache(searchInput)[0]);
+          break;
+        case NOT_CACHED:
+          getFromServer();
+          break;
       }
     });
+
+    const getFromServer = () => {
+      searchService.getServer(searchInput).then((ApiResponse: ApiResponse[]) => {
+        if (ApiResponse.length === 0) {
+          searchService.setCacheNoResult(searchInput);
+          setShowOutput(DEFAULT_SEARCH_RESULT);
+        } else {
+          const result: SearchResult = {
+            letter: searchInput,
+            values: searchService.convertResult(ApiResponse),
+          };
+
+          searchService.setCacheInResult(result);
+          setShowOutput(result);
+        }
+      });
+    };
   }, [searchInput]);
 
   return <SearchContext.Provider value={showOutput}>{children}</SearchContext.Provider>;
