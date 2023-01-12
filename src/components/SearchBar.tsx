@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
-import { useSetRecoilState, useRecoilState } from 'recoil';
-import { searchInputState, searchBarFocus } from '../store/recoil_state';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { searchBarFocus, searchInputState } from '../store/recoil_state';
 
 import { MagnifyGlassThick, MagnifyGlassThin } from './MagnifyGlass';
 
@@ -27,9 +27,12 @@ const SearchBar = () => {
 
   return (
     <>
-      <h1 className="text-xl font-bold mb-5">국내 모든 임상시험 검색하고 온라인 참여하기</h1>
-      <div className="flex items-center justify-between py-6 px-3 mb-3 rounded-3xl h-5 bg-white w-96">
-        <div className="flex w-full">
+      <div className="text-4xl grid place-items-center leading-normal font-bold mb-8">
+        <h2>국내 모든 임상시험 검색하고</h2>
+        <h2> 온라인으로 참여하기</h2>
+      </div>
+      <div className="flex items-center justify-between py-6 pl-3 mb-3 rounded-3xl h-5 bg-white w-96">
+        <div className=" box-border flex rounded-3xl overflow-hidden ">
           <MagnifyGlassThin />
           <input
             type="text"
@@ -40,12 +43,10 @@ const SearchBar = () => {
             }}
             onBlur={() => setIsSearchBarFocus(false)}
             onChange={onTextInput}
-            className="w-full"
+            className="w-full w-60 pl-2 outline-transparent"
           />
         </div>
-        <button className="rounded-full bg-blue-600 w-10 h-9 flex items-center">
-          <MagnifyGlassThick />
-        </button>
+        <button className="bg-[#1da1f2] w-20 h-12 rounded-r-full text-white">검색</button>
       </div>
     </>
   );
