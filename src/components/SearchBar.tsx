@@ -1,8 +1,11 @@
 import { useCallback } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { searchBarFocus, searchInputState, searchSelectedState } from '../store/recoil_state';
-
 import { MagnifyGlassThin } from './MagnifyGlass';
+
+import type { SearchResultType } from '../types/types';
+
+import { useSearch } from '../context/SearchContext';
 
 import { debounceFunction } from '../lib/debounce';
 
@@ -18,6 +21,7 @@ const SearchBar = () => {
   );
 
   const onTextInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
     apiCall(e.target.value);
   };
 
@@ -30,6 +34,8 @@ const SearchBar = () => {
         setSelected(selected - 1);
       }
       if (event.code === 'Enter' && selected >= 0) {
+        setSearchInput(searchResult.values[selected]);
+        setIsSearchBarFocus(false);
         setSelected(-1);
       }
     }
@@ -44,6 +50,8 @@ const SearchBar = () => {
     setIsSearchBarFocus(false);
   };
 
+  const searchResult: SearchResultType = useSearch();
+
   return (
     <>
       <div className="text-4xl grid place-items-center leading-normal font-bold mb-8">
@@ -54,6 +62,7 @@ const SearchBar = () => {
         <div className=" box-border flex rounded-3xl overflow-hidden ">
           <MagnifyGlassThin />
           <input
+            value={searchInput}
             onKeyUp={onTextKeyUp}
             type="text"
             placeholder="질환명을 입력해주세요"
