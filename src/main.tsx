@@ -9,7 +9,7 @@ import { SearchProvider } from './context/SearchContext';
 import { CacheRepository } from './class/CacheRepository';
 
 const cacheRepository = new CacheRepository();
-const httpClient = new HttpClient('http://localhost:4000');
+const httpClient = new HttpClient('http://localhost:4000/sick');
 const searchService = new SearchService(httpClient, cacheRepository);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

@@ -13,7 +13,7 @@ export class HttpClient {
 
   async fetch(keyword: string) {
     const keywordUTF = encodeURIComponent(keyword);
-    const result = await window.fetch(`${this.#baseURL}/sick?q=` + keywordUTF);
+    const result = await window.fetch(`${this.#baseURL}/?q=` + keywordUTF);
     console.info('API call');
     if (!result.ok) throw new Error();
 
