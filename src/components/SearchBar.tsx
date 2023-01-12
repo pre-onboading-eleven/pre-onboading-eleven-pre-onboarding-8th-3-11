@@ -25,9 +25,11 @@ const SearchBar = () => {
   );
 
   const onTextInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+    const chagedValue = e.target.value;
+
+    setInputValue(chagedValue);
     setSelectedNum(-1);
-    apiCall(e.target.value);
+    apiCall(chagedValue.trim());
     setIsSearchBarFocus(true);
   };
 
@@ -35,11 +37,11 @@ const SearchBar = () => {
     if (event.nativeEvent.isComposing) return;
 
     if (inputValue.length > 0) {
-      if (event.code === 'ArrowDown') {
+      if (event.code === 'ArrowDown' && selectedNum < 6) {
         setSelectedNum(prevState => prevState + 1);
-      } else if (event.code === 'ArrowUp') {
+      } else if (event.code === 'ArrowUp' && 0 < selectedNum) {
         setSelectedNum(prevState => prevState - 1);
-      } else if (event.code === 'Enter') {
+      } else if (event.code === 'Enter' && 0 <= selectedNum && selectedNum <= 6) {
         setInputValue(searchResult.values[selectedNum]);
         setIsSearchBarFocus(false);
         setSelectedNum(-1);
@@ -66,6 +68,8 @@ const SearchBar = () => {
         <h2 className="text-center whitespace-pre-wrap">{`국내 모든 임상시험 검색하고 \n 온라인으로 참여하기`}</h2>
       </div>
       <form
+        autoComplete="off"
+        noValidate
         onSubmit={onSubmitButton}
         className="flex items-center justify-between py-6 pl-3 m-3 rounded-3xl h-5 bg-white w-96"
       >
