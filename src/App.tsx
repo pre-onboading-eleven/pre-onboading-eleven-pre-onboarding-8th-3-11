@@ -1,5 +1,5 @@
-import AutocompleteBar from './component/AutocompleteBar';
-import SearchBar from './component/SearchBar';
+import AutocompleteBar from './components/AutocompleteBar';
+import SearchBar from './components/SearchBar';
 
 function App() {
   return (
