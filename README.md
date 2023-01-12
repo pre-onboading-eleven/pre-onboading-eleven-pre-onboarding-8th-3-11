@@ -11,9 +11,6 @@ npm install
 npm run dev
 ```
 
-## ✈️ 배포 링크
-https://preon-8th-3-11.herokuapp.com/
-
 
 ## 🎬 기능 소개
 
