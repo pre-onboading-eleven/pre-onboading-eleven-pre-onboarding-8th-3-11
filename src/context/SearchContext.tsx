@@ -1,10 +1,15 @@
 import React, { useContext, createContext, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { searchInputState, searchOutputState } from '../store/recoil_state';
-import { SearchResult } from '../types/types';
-import { NO_RESULT, IN_RESULT, NEW_RESULT } from '../constant/constants';
+import { searchInputState, showOutputState } from '../store/recoil_state';
+import { SearchResult, ApiResponse } from '../types/types';
+import {
+  CACHED_NOT_SEARCHED,
+  CACHED_SEARCHED,
+  NOT_CACHED,
+  DEFAULT_SEARCH_RESULT,
+} from '../constant/constants';
 
-const SearchContext = createContext<SearchResult>({ letter: '', values: [] });
+const SearchContext = createContext<SearchResult>(DEFAULT_SEARCH_RESULT);
 
 export const useSearch = () => useContext(SearchContext);
 
@@ -16,38 +21,37 @@ export const SearchProvider = ({
   searchService: any;
 }) => {
   const searchInput = useRecoilValue(searchInputState);
-  const [searchOutput, setSearchOutput] = useRecoilState(searchOutputState);
+  const [showOutput, setShowOutput] = useRecoilState(showOutputState);
 
   /**
    * 캐시 기능 로직
-   * sessionStorage에 정보가 없는 값(NO_RESULT), 정보가 있는 값(IN_RESULT)로
+   * sessionStorage에 정보가 없는 값(CACHED_NOT_SEARCHED), 정보가 있는 값(CACHED_SEARCHED)로
    * 구분해서, 있으면 API call을 안 하고 넘어감.
    * 정보가 있는 값의 경우 최대 7개까지만 저장.
    */
   useEffect(() => {
-    searchService.checkCache(searchInput).then((cached: string) => {
-      // console.info(cached);
-      if (cached === NO_RESULT) {
-        setSearchOutput({ letter: searchInput, values: [] });
-      } else if (cached === IN_RESULT) {
-        setSearchOutput(searchService.getCache(searchInput)[0]);
-      } else {
-        searchService.getServer(searchInput).then((res: any) => {
-          if (res.length === 0) {
+    searchService.checkCache(searchInput).then((cachedType: string) => {
+      if (cachedType === CACHED_NOT_SEARCHED) {
+        setShowOutput(DEFAULT_SEARCH_RESULT);
+      } else if (cachedType === CACHED_SEARCHED) {
+        setShowOutput(searchService.getCache(searchInput)[0]);
+      } else if (cachedType === NOT_CACHED) {
+        searchService.getServer(searchInput).then((ApiResponse: ApiResponse[]) => {
+          if (ApiResponse.length === 0) {
             searchService.setCacheNoResult(searchInput);
-            setSearchOutput({ letter: searchInput, values: [] });
+            setShowOutput(DEFAULT_SEARCH_RESULT);
           } else {
             const result: SearchResult = {
               letter: searchInput,
-              values: searchService.convertResult(res),
+              values: searchService.convertResult(ApiResponse),
             };
             searchService.setCacheInResult(result);
-            setSearchOutput(result);
+            setShowOutput(result);
           }
         });
       }
     });
   }, [searchInput]);
 
-  return <SearchContext.Provider value={searchOutput}>{children}</SearchContext.Provider>;
+  return <SearchContext.Provider value={showOutput}>{children}</SearchContext.Provider>;
 };

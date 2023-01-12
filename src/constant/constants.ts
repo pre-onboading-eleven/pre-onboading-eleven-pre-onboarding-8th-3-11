@@ -1,3 +1,5 @@
-export const NO_RESULT = 'no-result';
-export const IN_RESULT = 'in-result';
-export const NEW_RESULT = 'new-result';
+export const CACHED_NOT_SEARCHED = 'not-searched';
+export const CACHED_SEARCHED = 'searched';
+export const NOT_CACHED = 'not-cached';
+
+export const DEFAULT_SEARCH_RESULT = { letter: '', values: [] };

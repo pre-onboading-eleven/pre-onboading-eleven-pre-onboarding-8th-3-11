@@ -6,17 +6,17 @@
 // convertResult(ApiResponse): SearchResult['values']
 
 import { SearchResult, NoResultArray, ApiResponse } from '../types/types';
-import { NO_RESULT, IN_RESULT, NEW_RESULT } from '../constant/constants';
+import { CACHED_NOT_SEARCHED, CACHED_SEARCHED, NOT_CACHED } from '../constant/constants';
 
 export class SearchService {
   #httpClient;
   #cacheRepository;
-  #NO_RESULT = NO_RESULT;
-  #IN_RESULT = IN_RESULT;
-  #NEW_RESULT = NEW_RESULT;
-  #NO_RESULT_ARRAY: NoResultArray = [];
-  #IN_RESULT_ARRAY: SearchResult[] = [];
-  #MAX_LENGTH_RESULT = 7;
+  #CACHED_NOT_SEARCHED = CACHED_NOT_SEARCHED;
+  #CACHED_SEARCHED = CACHED_SEARCHED;
+  #NOT_CACHED = NOT_CACHED;
+  #CACHED_NOT_SEARCHED_ARRAY: NoResultArray = [];
+  #CACHED_SEARCHED_ARRAY: SearchResult[] = [];
+  #MAX_LENGTH = 7;
 
   constructor(httpClient: any, cacheRepository: any) {
     this.#httpClient = httpClient;
@@ -24,24 +24,24 @@ export class SearchService {
   }
 
   checkCache(keyword = '') {
-    if (keyword === '') return Promise.resolve(this.#NO_RESULT);
+    if (keyword === '') return Promise.resolve(this.#CACHED_NOT_SEARCHED);
 
-    this.#NO_RESULT_ARRAY = this.#cacheRepository.getNoResult();
-    if (this.#NO_RESULT_ARRAY.includes(keyword)) {
-      return Promise.resolve(this.#NO_RESULT);
+    this.#CACHED_NOT_SEARCHED_ARRAY = this.#cacheRepository.getCachedNotSearched();
+    if (this.#CACHED_NOT_SEARCHED_ARRAY.includes(keyword)) {
+      return Promise.resolve(this.#CACHED_NOT_SEARCHED);
     }
 
-    this.#IN_RESULT_ARRAY = this.#cacheRepository.getInResult();
+    this.#CACHED_SEARCHED_ARRAY = this.#cacheRepository.getCachedSearched();
 
-    for (const item of this.#IN_RESULT_ARRAY) {
-      if (item.letter === keyword) return Promise.resolve(this.#IN_RESULT);
+    for (const searched of this.#CACHED_SEARCHED_ARRAY) {
+      if (searched.letter === keyword) return Promise.resolve(this.#CACHED_SEARCHED);
     }
 
-    return Promise.resolve(this.#NEW_RESULT);
+    return Promise.resolve(this.#NOT_CACHED);
   }
 
   getCache(keyword: string) {
-    return this.#IN_RESULT_ARRAY.filter(item => item.letter === keyword);
+    return this.#CACHED_SEARCHED_ARRAY.filter(searched => searched.letter === keyword);
   }
 
   async getServer(keyword: string) {
@@ -50,20 +50,19 @@ export class SearchService {
   }
 
   setCacheNoResult(keyword: string) {
-    this.#cacheRepository.saveNoResult(keyword);
+    this.#cacheRepository.saveCachedNotSearched(keyword);
   }
 
-  setCacheInResult(result: SearchResult) {
-    this.#cacheRepository.saveInResult(result);
+  setCacheInResult(SearchResult: SearchResult) {
+    this.#cacheRepository.saveCachedSearched(SearchResult);
   }
 
-  convertResult(result: ApiResponse[]) {
+  convertResult(ApiResponse: ApiResponse[]) {
     // sickNm 짧은 순서대로 정렬해서 7개까지 리턴
-    const length = Math.min(result.length, this.#MAX_LENGTH_RESULT);
     const returns = [];
-    result.sort((a, b) => a.sickNm.length - b.sickNm.length);
-    for (let i = 0; i < length; i++) {
-      returns.push(result[i].sickNm);
+    ApiResponse.sort((a, b) => a.sickNm.length - b.sickNm.length);
+    for (let i = 0; i < Math.min(ApiResponse.length, this.#MAX_LENGTH); i++) {
+      returns.push(ApiResponse[i].sickNm);
     }
     return returns;
   }

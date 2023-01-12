@@ -1,5 +1,6 @@
 import { atom } from 'recoil';
 import { SearchResult } from '../types/types';
+import { DEFAULT_SEARCH_RESULT } from '../constant/constants';
 
 const searchInputState = atom({
   key: 'searchInputState',
@@ -11,9 +12,9 @@ const searchResultState = atom<SearchResult[]>({
   default: [],
 });
 
-const searchOutputState = atom<SearchResult>({
-  key: 'searchOutputState',
-  default: { letter: '', values: [] },
+const showOutputState = atom<SearchResult>({
+  key: 'showOutputState',
+  default: DEFAULT_SEARCH_RESULT,
 });
 
 const searchBarFocus = atom({
@@ -21,4 +22,4 @@ const searchBarFocus = atom({
   default: false,
 });
 
-export { searchInputState, searchBarFocus, searchResultState, searchOutputState };
+export { searchInputState, searchBarFocus, searchResultState, showOutputState };

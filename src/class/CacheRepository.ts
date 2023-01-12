@@ -1,46 +1,52 @@
 // CacheRepository Interface
-// saveNoResult(keyword): void
-// getNoResult(): NoResultArray
-// saveInResult(keyword[]): void
-// getInResult(): SearchResult{}
+// saveCachedNotSearched(keyword): void
+// getCachedNotSearched(): CachedNotSearched
+// saveCachedSearched(keyword[]): void
+// getCachedSearched(): SearchResult{}
 
 import { SearchResult } from '../types/types';
 
 export class CacheRepository {
-  #NO_RESULT = 'no-result';
-  #IN_RESULT = 'in-result';
+  #CACHED_NOT_SEARCHED = 'not-exists';
+  #CACHED_SEARCHED = 'exists';
 
-  saveNoResult(keyword: string) {
-    const noResult = sessionStorage.getItem(this.#NO_RESULT);
-    if (noResult === null) {
-      sessionStorage.setItem(this.#NO_RESULT, JSON.stringify([keyword]));
+  saveCachedNotSearched(keyword: string) {
+    const notSearched = sessionStorage.getItem(this.#CACHED_NOT_SEARCHED);
+    if (notSearched === null) {
+      sessionStorage.setItem(this.#CACHED_NOT_SEARCHED, JSON.stringify([keyword]));
     } else {
-      const noResultArray = JSON.parse(noResult);
-      if (noResultArray.includes(keyword)) return;
-      sessionStorage.setItem(this.#NO_RESULT, JSON.stringify([...noResultArray, keyword]));
+      const notSearchedArray = JSON.parse(notSearched);
+      if (notSearchedArray.includes(keyword)) return;
+      sessionStorage.setItem(
+        this.#CACHED_NOT_SEARCHED,
+        JSON.stringify([...notSearchedArray, keyword])
+      );
     }
   }
 
-  getNoResult() {
-    const noResult = sessionStorage.getItem(this.#NO_RESULT);
-    return noResult === null ? [] : JSON.parse(noResult);
+  getCachedNotSearched() {
+    const notSearched = sessionStorage.getItem(this.#CACHED_NOT_SEARCHED);
+    return notSearched === null ? [] : JSON.parse(notSearched);
   }
 
-  saveInResult(result: SearchResult) {
-    const inResult = sessionStorage.getItem(this.#IN_RESULT);
-    if (inResult === null) {
-      sessionStorage.setItem(this.#IN_RESULT, JSON.stringify([result]));
+  saveCachedSearched(SearchResult: SearchResult) {
+    const searched = sessionStorage.getItem(this.#CACHED_SEARCHED);
+    if (searched === null) {
+      sessionStorage.setItem(this.#CACHED_SEARCHED, JSON.stringify([SearchResult]));
     } else {
-      const inResultArray = JSON.parse(inResult);
-      for (const obj of inResultArray) {
-        if (obj.letter === result.letter) return;
+      const searchedArray = JSON.parse(searched);
+      for (const obj of searchedArray) {
+        if (obj.letter === SearchResult.letter) return;
       }
-      sessionStorage.setItem(this.#IN_RESULT, JSON.stringify([...inResultArray, result]));
+      sessionStorage.setItem(
+        this.#CACHED_SEARCHED,
+        JSON.stringify([...searchedArray, SearchResult])
+      );
     }
   }
 
-  getInResult() {
-    const inResultArray = sessionStorage.getItem(this.#IN_RESULT) || '';
-    return inResultArray.length === 0 ? [] : JSON.parse(inResultArray);
+  getCachedSearched() {
+    const searchedArray = sessionStorage.getItem(this.#CACHED_SEARCHED) || '';
+    return searchedArray.length === 0 ? [] : JSON.parse(searchedArray);
   }
 }
