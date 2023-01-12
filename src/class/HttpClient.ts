@@ -1,5 +1,8 @@
-// HttpClientInterface
-// fetch(keyword): Promise<Any>
+/**
+ * HttpClientInterface
+ *
+ * fetch(keyword): Promise<Any>
+ */
 
 export class HttpClient {
   #baseURL;

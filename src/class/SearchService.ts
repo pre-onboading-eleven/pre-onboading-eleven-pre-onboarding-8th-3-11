@@ -1,9 +1,13 @@
-// SearchServiceInterface
-// checkCache(keyword): Promise<string>
-// getCache(keyword): SearchResult[]
-// getServer(keyword): SearchResult[]
-// setCacheNoResult(keyword):void
-// convertResult(ApiResponse): SearchResult['values']
+/**
+ * SearchServiceInterface
+ *
+ * checkCache(keyword): Promise<string>
+ * getCache(keyword): SearchResult[]
+ * getServer(keyword): SearchResult[]
+ * setCacheNoResult(keyword):void
+ * setCacheInResult(SearchResult): void
+ * convertResult(ApiResponse): SearchResult['values']
+ */
 
 import { SearchResult, NoResultArray, ApiResponse } from '../types/types';
 import { CACHED_NOT_SEARCHED, CACHED_SEARCHED, NOT_CACHED } from '../constant/constants';

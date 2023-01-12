@@ -1,8 +1,11 @@
-// CacheRepository Interface
-// saveCachedNotSearched(keyword): void
-// getCachedNotSearched(): CachedNotSearched
-// saveCachedSearched(keyword[]): void
-// getCachedSearched(): SearchResult{}
+/**
+ * CacheRepository Interface
+ *
+ * saveCachedNotSearched(keyword): void
+ * getCachedNotSearched(): CachedNotSearched
+ * saveCachedSearched(keyword[]): void
+ * getCachedSearched(): SearchResult{}
+ */
 
 import { SearchResult } from '../types/types';
 
