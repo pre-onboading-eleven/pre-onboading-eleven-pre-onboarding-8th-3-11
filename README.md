@@ -12,16 +12,18 @@
 ```
 npm install
 npm run dev
-
 ```
 
 ## 🎬 기능 소개
 
 ![검색창 구현](https://user-images.githubusercontent.com/107922059/212015257-bd00cdcd-3ac0-414c-ba0e-05d829f432a6.gif)
 
-## 💡Best Practice
+## 💡Best Practice 및 협업 과정
 
-위키링크
+#### [1. API 호출 최적화 Session Storage](https://github.com/pre-onboading-eleven/pre-onboarding-8th-3-11/wiki/1.-API-%ED%98%B8%EC%B6%9C-%EC%B5%9C%EC%A0%81%ED%99%94---Session-Storage)
+#### [2. 키보드 이벤트](https://github.com/pre-onboading-eleven/pre-onboarding-8th-3-11/wiki/2.-%ED%82%A4%EB%B3%B4%EB%93%9C-%EC%9D%B4%EB%B2%A4%ED%8A%B8)
+#### [3. Debounce](https://github.com/pre-onboading-eleven/pre-onboarding-8th-3-11/wiki/3.-Debounce)
+#### [4. 관심사 분리](https://github.com/pre-onboading-eleven/pre-onboarding-8th-3-11/wiki/4.-%EA%B4%80%EC%8B%AC%EC%82%AC-%EB%B6%84%EB%A6%AC)
 
 
 ## 👨‍👩‍👧‍👦 팀 소개
