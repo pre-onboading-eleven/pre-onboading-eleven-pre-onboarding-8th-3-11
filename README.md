@@ -1,36 +1,27 @@
-## 시작하기
+# 원티드 프리온보딩 3주차 과제
+
+## 🤝 과제 
+- 검색창 및 검색어 추천 기능 구현
+- 기간: 2023.01.10 - 01.13
+
+## ✈️ 배포 링크
+
+
+## ⚡️ 프로젝트 실행 방법
 
 ```
 npm install
 npm run dev
+
 ```
 
-## 캐싱 구현 방법
+## 🎬 기능 소개
 
-1. 검색해야 하는 데이터는 <b>병명 코드</b>로서, 검색결과가 바뀔 가능성은 상당히 낮습니다. 따라서 캐싱을 위해 로컬의 Web Storage를 사용했고, 검색결과가 영구적이지는 않으므로 Session Storage를 사용했습니다.
-2. 검색한 정보는 전부 캐싱 했고, 검색 효율성을 위해 검색결과가 없는 경우와 있는 경우를 나눠서 저장했습니다.
-3. 만일 검색한 정보가 Session Storage가 존재하면(캐시라면) 꺼내와서 정보를 표출합니다. 없다면 서버에 정보를 요청합니다.
-4. 사용자가 타이핑 하는 모든 글자에 결과를 줄 필요는 없으므로 500ms의 debounce를 주었습니다.
+![검색창 구현](https://user-images.githubusercontent.com/107922059/212015257-bd00cdcd-3ac0-414c-ba0e-05d829f432a6.gif)
 
-## 특장점
+## 💡Best Practice
 
-- 관심사 분리와 의존성 역전을 위해 Class, Context API를 활용했습니다.
-- 과제 시작 전에 사용할 모든 기술을 미리 맞춰둬 소통이 원활했습니다.
-
-
-
-
-## 유의점
-
-- HTTP 요청이 http://localhost:4000/sick 으로 됩니다. 이를 위해 먼저 로컬 서버를 돌려주세요.
-
-# 원티드 프리온보딩 3주차 과제
-
-## 🤝 과제 
-- 
-- 기간: 
-
-## ✈️ 배포 링크
+위키링크
 
 
 ## 👨‍👩‍👧‍👦 팀 소개
@@ -114,22 +105,34 @@ npm run dev
 </tr>
 </table>
 
-## ⚡️ 프로젝트 실행 방법
 
-```
-npm install
-npm run dev
-
-```
 
 ## 🌲 src 폴더 구조
 ```
-
-```
-
-
-## 🎬 기능 소개(gif)
-
+src
+ ┣ class
+ ┃ ┣ CacheRepository.ts
+ ┃ ┣ HttpClient.ts
+ ┃ ┗ SearchService.ts
+ ┣ components
+ ┃ ┣ AutocompleteBar.tsx
+ ┃ ┣ MagnifyGlass.tsx
+ ┃ ┗ SearchBar.tsx
+ ┣ constant
+ ┃ ┗ constants.ts
+ ┣ context
+ ┃ ┗ SearchContext.tsx
+ ┣ lib
+ ┃ ┗ debounce.ts
+ ┣ store
+ ┃ ┗ recoil_state.ts
+ ┣ types
+ ┃ ┗ types.ts
+ ┣ App.tsx
+ ┣ index.css
+ ┣ main.tsx
+ ┗ vite-env.d.ts
+ 
 ```
 
 
