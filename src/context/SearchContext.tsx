@@ -1,5 +1,6 @@
 import { useContext, createContext, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
+
 import { searchInputState, showOutputState } from '../store/recoil_state';
 import {
   CACHED_NOT_SEARCHED,
@@ -22,10 +23,9 @@ export const SearchProvider = ({
   children: React.ReactNode;
   searchService: SearchService;
 }) => {
-  const searchInput = useRecoilValue(searchInputState);
   const [showOutput, setShowOutput] = useRecoilState(showOutputState);
+  const searchInput = useRecoilValue(searchInputState);
 
-  // 캐시 로직
   useEffect(() => {
     searchService.checkCache(searchInput).then((cachedType: string) => {
       switch (cachedType) {

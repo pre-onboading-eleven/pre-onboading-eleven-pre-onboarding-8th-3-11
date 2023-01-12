@@ -1,4 +1,5 @@
 import { atom } from 'recoil';
+
 import { DEFAULT_SEARCH_RESULT } from '../constant/constants';
 
 import type { SearchResultType } from '../types/types';
