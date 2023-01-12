@@ -138,7 +138,7 @@ src
 ```
 
 
-##⚒️ 기술 스택 / 라이브러리
+## ⚒️ 기술 스택 / 라이브러리
 
 TypeScript, React, tailwindCss, recoil
 
