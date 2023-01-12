@@ -64,7 +64,6 @@ export class SearchService {
   }
 
   convertResult(ApiResponse: ApiResponse[]) {
-    // sickNm 짧은 순서대로 정렬해서 7개까지 리턴
     const returns = [];
     ApiResponse.sort((a, b) => a.sickNm.length - b.sickNm.length);
     for (let i = 0; i < Math.min(ApiResponse.length, this.#MAX_LENGTH); i++) {
