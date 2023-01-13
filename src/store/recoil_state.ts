@@ -9,8 +9,8 @@ const searchInputState = atom({
   default: '',
 });
 
-const searchSelectedState = atom({
-  key: 'searchSelectedState',
+const searchSelectedNumState = atom({
+  key: 'searchSelectedNumState',
   default: -1,
 });
 
@@ -34,5 +34,5 @@ export {
   searchBarFocus,
   searchResultState,
   showOutputState,
-  searchSelectedState,
+  searchSelectedNumState,
 };
