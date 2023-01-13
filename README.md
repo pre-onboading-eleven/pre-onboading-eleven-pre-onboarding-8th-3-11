@@ -10,6 +10,14 @@
 npm install
 npm run dev
 ```
+`npm run dev` 시에 프로젝트와 함께 json-server가 실행됩니다.
+
+## ✈️ 클라이언트 배포 링크
+
+https://super-ganache-f75b7b.netlify.app
+
+‼주의‼
+배포링크는 [해당 링크](https://github.com/walking-sunset/assignment-api_8th)를 클론, 설치하여 서버를 연 이후에 사용 가능합니다.
 
 
 ## 🎬 기능 소개
